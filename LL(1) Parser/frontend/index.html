@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LL(1) Parser Visualizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <h1>LL(1) <span>Parser</span> Visualizer</h1>
+      <label class="dark-toggle">
+        <input type="checkbox" id="toggle-dark" />
+        <span class="toggle-pill"></span>
+        <span>Dark</span>
+      </label>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-tag">Compiler Design</div>
+    <h2>Understand LL(1) parsing,<br>step by step.</h2>
+    <p>Enter a context-free grammar, compute FIRST &amp; FOLLOW sets,<br>
+       build the parsing table, and simulate predictive parsing interactively.</p>
+  </div>
+
+  <main>
+
+    <section class="card">
+      <div class="card-header">
+        <div class="step-badge">1</div>
+        <h2>Grammar input</h2>
+      </div>
+      <p class="hint">One production per line. Use <code>-&gt;</code> and <code>|</code> for alternatives. Use <code>ε</code> for epsilon.</p>
+      <textarea id="grammar-input" rows="6" spellcheck="false">E -> T E'
+E' -> + T E' | ε
+T -> F T'
+T' -> * F T' | ε
+F -> ( E ) | id</textarea>
+      <div class="controls-row">
+        <button id="btn-load-sample">Load sample</button>
+        <button id="btn-process-grammar" class="btn-primary">Process grammar</button>
+      </div>
+      <pre id="grammar-processed" class="output-box hidden"></pre>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div class="step-badge">2</div>
+        <h2>FIRST &amp; FOLLOW sets</h2>
+      </div>
+      <button id="btn-compute-first-follow" class="btn-primary">Compute FIRST / FOLLOW</button>
+      <div class="columns" id="ff-columns" style="display:none">
+        <div>
+          <h3>FIRST sets</h3>
+          <pre id="first-output" class="output-box"></pre>
+        </div>
+        <div>
+          <h3>FOLLOW sets</h3>
+          <pre id="follow-output" class="output-box"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div class="step-badge">3</div>
+        <h2>LL(1) parsing table</h2>
+      </div>
+      <button id="btn-build-table" class="btn-primary">Generate parsing table</button>
+      <div id="table-container"></div>
+      <div id="conflict-box" class="hidden">
+        <h3>Conflict explanation</h3>
+        <pre id="conflict-output" class="output-box"></pre>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div class="step-badge">4</div>
+        <h2>Predictive parsing simulation</h2>
+      </div>
+      <div class="input-row">
+        <label for="input-string">Input tokens (space-separated, without $)</label>
+        <input id="input-string" type="text" value="id + id * id" placeholder="e.g. id + id * id" />
+      </div>
+      <div class="controls-row">
+        <button id="btn-start-parse" class="btn-primary">Start parsing</button>
+        <button id="btn-step" disabled>Next step</button>
+        <button id="btn-auto" disabled>Auto-run</button>
+        <button id="btn-reset" disabled>Reset</button>
+      </div>
+      <div class="columns" id="sim-columns" style="display:none">
+        <div>
+          <h3>Stack / input / action trace</h3>
+          <div class="table-scroll">
+            <table id="trace-table">
+              <thead>
+                <tr><th>#</th><th>Stack</th><th>Input</th><th>Action</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3>Result &amp; error recovery</h3>
+          <pre id="error-output" class="output-box"></pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Built for learning Compiler Design &mdash; LL(1) parsing.</p>
+  </footer>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
