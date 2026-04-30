@@ -87,6 +87,7 @@ export function computeFollowSets(grammar, firstSets) {
               changed = true;
             }
           }
+          
 
           if (beta.length === 0 || firstBeta.has(EPSILON)) {
             for (const t of follow[A]) {
